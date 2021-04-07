@@ -76,9 +76,9 @@ body {
 }
 
 /* Topic Index Page */
-.topics-index-page {
+.topics-index-page, .categories-show-page {
   .topic-list {
-    .nav>li>a {
+    .nav > li > a {
       position: relative;
       display: block;
       padding: 5px 14px;
@@ -110,6 +110,7 @@ body {
     }
   }
 }
+
 /* Add container and footer space */
 #app > div.container {
   margin-bottom: 100px;
