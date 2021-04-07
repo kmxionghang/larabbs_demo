@@ -20,6 +20,7 @@ body {
 }
 
 /* header */
+
 .navbar-static-top {
   border-color: #e7e7e7;
   background-color: #fff;
@@ -28,6 +29,40 @@ body {
   border-bottom: 1px solid #e8e8e8;
   margin-bottom: 40px;
   margin-top: 0px;
+}
+
+/* Sticky footer styles */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #000;
+
+  .container {
+    padding-right: 15px;
+    padding-left: 15px;
+
+    p {
+      margin: 19px 0;
+      color: #c1c1c1;
+
+      a {
+        color: inherit;
+      }
+    }
+  }
 }
 
 /* User register page */
