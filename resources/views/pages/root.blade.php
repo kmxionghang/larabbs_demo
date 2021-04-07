@@ -2,5 +2,6 @@
 @section('title', 'home')
 
 @section('content')
-  @stop
+  <h1>home</h1>
+@stop
 
