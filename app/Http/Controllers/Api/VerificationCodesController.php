@@ -41,7 +41,7 @@ class VerificationCodesController extends Controller
         $expiredAt = now()->addMinutes(5);
 
 //        // 缓存验证码 5 分钟过期。
-//        \Cache::put($key, ['phone' => $phone, 'code' => $code], $expiredAt);
+        \Cache::put($key, ['phone' => $phone, 'code' => $code], $expiredAt);
 
         return response()->json([
             'key' => $key,
