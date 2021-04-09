@@ -14,8 +14,8 @@ class UsersController extends Controller
     {
         $verifyData = \Cache::get($request->verification_key);
 
-       if (!$verifyData) {
-           abort(403, '验证码已失效');
+        if (!$verifyData) {
+            abort(403, '验证码已失效');
         }
 
         if (!hash_equals($verifyData['code'], $request->verification_code)) {
@@ -32,6 +32,16 @@ class UsersController extends Controller
         // 清除验证码缓存
         \Cache::forget($request->verification_key);
 
+        return (new UserResource($user))->showSensitiveFields();
+    }
+
+    public function show(User $user)
+    {
         return new UserResource($user);
+    }
+
+    public function me(Request $request)
+    {
+        return (new UserResource($request->user()))->showSensitiveFields();
     }
 }
