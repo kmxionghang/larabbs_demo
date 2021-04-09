@@ -13,7 +13,6 @@ class ImagesController extends Controller
 {
     public function store(ImageRequest $request, ImageUploadHandler $uploader, Image $image)
     {
-        dd(1);
         $user = $request->user();
 
         $size = $request->type == 'avatar' ? 416 : 1024;

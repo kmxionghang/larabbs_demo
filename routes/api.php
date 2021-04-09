@@ -55,6 +55,7 @@ Route::prefix('v1')
                 // 登录后可以访问的接口
                 Route::middleware('auth:api')->group(function() {
                     // 当前登录用户信息
+                    Route::patch('user', 'UsersController@update')->name('user.update');
                     Route::get('me', 'UsersController@me')->name('user.show');
                     // 上传图片
                     Route::post('images', 'ImagesController@store')
