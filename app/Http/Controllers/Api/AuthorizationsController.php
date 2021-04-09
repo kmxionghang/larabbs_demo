@@ -30,11 +30,11 @@ class AuthorizationsController extends Controller
                 $oauthUser = $driver->userFromToken($request->access_token);
             }
         } catch (\Exception $e) {
-           throw new AuthenticationException('参数错误，未获取用户信息');
+            throw new AuthenticationException('参数错误，未获取用户信息');
         }
 
         if (!$oauthUser->getId()) {
-           throw new AuthenticationException('参数错误，未获取用户信息');
+            throw new AuthenticationException('参数错误，未获取用户信息');
         }
 
         switch ($type) {
@@ -74,14 +74,30 @@ class AuthorizationsController extends Controller
         $credentials['password'] = $request->password;
 
         if (!$token = \Auth::guard('api')->attempt($credentials)) {
-            dd('用户名或密码错误');
             throw new AuthenticationException('用户名或密码错误');
         }
 
+        return $this->respondWithToken($token)->setStatusCode(201);
+    }
+
+    public function update()
+    {
+        $token = auth('api')->refresh();
+        return $this->respondWithToken($token);
+    }
+
+    public function destroy()
+    {
+        auth('api')->logout();
+        return response(null, 204);
+    }
+
+    protected function respondWithToken($token)
+    {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
-        ])->setStatusCode(201);
+            'expires_in' => auth('api')->factory()->getTTL() * 60
+        ]);
     }
 }
