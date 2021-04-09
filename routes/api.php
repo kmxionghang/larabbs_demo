@@ -34,6 +34,9 @@ Route::prefix('v1')
                 Route::post('socials/{social_type}/authorizations', 'AuthorizationsController@socialStore')
                     ->where('social_type', 'wechat') // 增加限制，支持微信
                     ->name('socials.authorizations.store');
+                // 登录
+                Route::post('authorizations', 'AuthorizationsController@store')
+                    ->name('authorizations.store');
             });
 
         Route::middleware('throttle:' . config('api.rate_limits.access'))

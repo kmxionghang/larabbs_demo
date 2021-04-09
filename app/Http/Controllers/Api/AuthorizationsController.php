@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Api\AuthorizationRequest;
 use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
@@ -60,5 +61,27 @@ class AuthorizationsController extends Controller
         }
 
         return response()->json(['token' => $user->id]);
+    }
+
+    public function store(AuthorizationRequest $request)
+    {
+        $username = $request->username;
+
+        filter_var($username, FILTER_VALIDATE_EMAIL) ?
+            $credentials['email'] = $username :
+            $credentials['phone'] = $username;
+
+        $credentials['password'] = $request->password;
+
+        if (!$token = \Auth::guard('api')->attempt($credentials)) {
+            dd('用户名或密码错误');
+            throw new AuthenticationException('用户名或密码错误');
+        }
+
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
+        ])->setStatusCode(201);
     }
 }
