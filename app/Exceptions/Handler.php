@@ -38,4 +38,22 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    // 错误警告添加 code 参数
+    protected function convertExceptionToArray(Throwable $e)
+    {
+        return config('app.debug') ? [
+            'message' => $e->getMessage(),
+            'code' => $e->getCode(),
+            'exception' => get_class($e),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => collect($e->getTrace())->map(function ($trace) {
+                return Arr::except($trace, ['args']);
+            })->all(),
+        ] : [
+            'message' => $this->isHttpException($e) ? $e->getMessage() : 'Server Error',
+            'code' => $e->getCode(),
+        ];
+    }
 }
