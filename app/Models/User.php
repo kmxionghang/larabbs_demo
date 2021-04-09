@@ -98,6 +98,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->id == $model->user_id;
     }
 
+    // 未读消息标记为已读
     public function markAsRead()
     {
         $this->notification_count = 0;
