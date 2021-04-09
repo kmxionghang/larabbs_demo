@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class Topic extends Model
 {
@@ -55,6 +56,14 @@ class Topic extends Model
     }
 
 
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return QueryBuilder::for(self::class)
+            ->allowedIncludes('user', 'category')
+            ->where($this->getRouteKeyName(), $value)
+            ->first();
+    }
+
     public function link($params = [])
     {
         return route('topics.show', array_merge([$this->id, $this->slug], $params));
@@ -65,4 +74,5 @@ class Topic extends Model
         $this->reply_count = $this->replies->count();
         $this->save();
     }
+
 }
